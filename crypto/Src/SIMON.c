@@ -175,7 +175,7 @@ void SIMON_decrypt(SimonContext* context, uint64_t* block, uint64_t* out)
 	out[1] = y;
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
 {
 	SimonContext context;
 	int i;
@@ -184,24 +184,44 @@ int crypt_main(int key_size, int text[], int key[], int validation[], int size)
 	uint64_t expectedCipherText[2];
 	uint64_t decryptedText[2];
 
+	uint64_t key_in[4];
+	uint64_t text_in[2];
 
-	uint64_t* txt = &text;
-	// test for 128-bits key
+	text_in[0] = (text[0] << 32) | text[1];
+	text_in[1] = (text[2] << 32) | text[3];
+
+	switch (KEYSIZE)
+	{
+	case 128 :
+		key_in[0] = (key[0] << 32) | key[1];
+		key_in[1] = (key[2] << 32) | key[3];
+		key_in[2] = 0x0000000000000000;
+		key_in[3] = 0x0000000000000000;		
+		break;
+	case 192 :
+		key_in[0] = (key[0] << 32) | key[1];
+		key_in[1] = (key[2] << 32) | key[3];
+		key_in[2] = (key[4] << 32) | key[5];
+		key_in[3] = 0x0000000000000000;
+		break;
+	case 256 :
+		key_in[0] = (key[0] << 32) | key[1];
+		key_in[1] = (key[2] << 32) | key[3];
+		key_in[2] = (key[4] << 32) | key[5];
+		key_in[3] = (key[6] << 32) | key[7];
+		break;
+	
+	default:
+		break;
+	}
 
 	
 
-	SIMON_init(&context, key, key_size);
+	SIMON_init(&context, key_in, KEYSIZE);
 
-	SIMON_encrypt(&context, txt, cipherText);
+	SIMON_encrypt(&context, text_in, cipherText);
 	SIMON_decrypt(&context, cipherText, decryptedText);
 
-
-	for (int i = 0; i < 2; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == txt[i]))
-			return 1;
-	}
 	
 	return 0;
 

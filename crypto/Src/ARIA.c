@@ -520,7 +520,7 @@ void ARIA_decrypt(AriaContext* context, uint32_t* block, uint32_t* P)
 	XOR_128(P, context->dks[subkey++]);
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
 {
 	AriaContext context;
 	uint32_t cipherText[4];
@@ -528,16 +528,10 @@ int crypt_main(int key_size, int text[], int key[], int validation[], int size)
 	uint32_t decryptedText[4];
 
 
-	ARIA_init(&context, key, key_size);
+	ARIA_init(&context, key, KEYSIZE);
 	ARIA_encrypt(&context, text, cipherText);
 	ARIA_decrypt(&context, cipherText, decryptedText);
 	
-	for (int i = 0; i < size; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == validation[i]))
-			return 1;
-	}
 	
 	return 0;
 }

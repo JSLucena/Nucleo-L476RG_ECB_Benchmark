@@ -22,6 +22,6 @@ void SEED_init(SeedContext* context, uint32_t* key);
 void SEED_encrypt(SeedContext* context, uint32_t* block, uint32_t* out);
 void SEED_decrypt(SeedContext* context, uint32_t* block, uint32_t* out);
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size);
+int crypt_main(uint32_t* text, uint32_t* key);
 
 #endif

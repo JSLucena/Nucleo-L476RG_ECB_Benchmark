@@ -126,16 +126,13 @@ uint64_t GOST_decrypt(uint64_t encryptedBlock, uint32_t* key)
 	return tc;
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
-{
-	uint64_t txt = (text[0] << 32 + text[1]);
+int crypt_main(uint32_t* text, uint32_t* key){
 
-	uint64_t cipherText = GOST_encrypt(txt, key);
+	uint64_t text_in = (text[0] << 32) | text[1];
+
+	uint64_t cipherText = GOST_encrypt(text, key);
 	uint64_t decrypted = GOST_decrypt(cipherText, key);
 
-		if (!(decrypted == txt))
-			return 1;
-	
 	return 0;
 	
 }

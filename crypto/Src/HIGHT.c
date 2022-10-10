@@ -202,28 +202,46 @@ void HIGHT_decrypt(HightContext* context, uint8_t* block, uint8_t* out)
 	out[7] = x[7];
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
 {
 	HightContext context;
 	int i;
 	uint8_t cipherText[8];
 	uint8_t expectedCipherText[8];
 	uint8_t decryptedText[8];
-	uint8_t *txt = &text;
+	uint8_t key_in[16];
+	uint8_t text_in[8];
 
-	HIGHT_init(&context, key);
-	HIGHT_encrypt(&context, txt, cipherText);
+	key_in[0] = key[0] >> 24;
+	key_in[1] = key[0] >> 16;
+	key_in[2] = key[0] >> 8;
+	key_in[3] = key[0];
+	key_in[4] = key[1] >> 24;
+	key_in[5] = key[1] >> 16;
+	key_in[6] = key[1] >> 8;
+	key_in[7] = key[1];
+	key_in[8] = key[2] >> 24;
+	key_in[9] = key[2] >> 16;
+	key_in[10] = key[2] >> 8;
+	key_in[11] = key[2];
+	key_in[12] = key[3] >> 24;
+	key_in[13] = key[3] >> 16;
+	key_in[14] = key[3] >> 8;
+	key_in[15] = key[3];
+
+	text_in[0] = text[0] >> 24;
+	text_in[1] = text[0] >> 16;
+	text_in[2] = text[0] >> 8;
+	text_in[3] = text[0];
+	text_in[4] = text[1] >> 24;
+	text_in[5] = text[1] >> 16;
+	text_in[6] = text[1] >> 8;
+	text_in[7] = text[1];
+
+	HIGHT_init(&context, key_in);
+	HIGHT_encrypt(&context, text_in, cipherText);
 	HIGHT_decrypt(&context, cipherText, decryptedText);
 
-	for (int i = 0; i < size; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == txt[i]))
-			return 1;
-
-	}
-
-return 0;
 }
 
 #endif

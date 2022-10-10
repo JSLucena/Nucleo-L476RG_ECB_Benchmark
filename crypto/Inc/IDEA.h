@@ -24,6 +24,6 @@ void IDEA_init(IdeaContext* context, uint16_t* key);
 void IDEA_encrypt(IdeaContext* context, uint16_t* block, uint16_t* out);
 void IDEA_decrypt(IdeaContext* context, uint16_t* encryptedBlock, uint16_t* out);
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size);
+int crypt_main(uint32_t* text, uint32_t* key);
 
 #endif

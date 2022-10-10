@@ -203,9 +203,9 @@ int main(void)
           count++;
         }
 
-        ret = crypt_main(KEYSIZE,text,KEY,text,TEXT_SIZE);
-        if(ret)
-          Error_Handler();
+        //uint32_t ptr = &TEXT_LIST[count];
+        //count+=TEXT_SIZE;
+        ret = crypt_main(text,KEY);
 
       }while(count < 202);
       

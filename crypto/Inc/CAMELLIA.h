@@ -23,6 +23,6 @@ void CAMELLIA_init(CamelliaContext* context, const uint64_t* key, uint16_t keyLe
 void CAMELLIA_encrypt(const CamelliaContext* context, const uint64_t* block, uint64_t* out);
 void CAMELLIA_decrypt(const CamelliaContext* context, const uint64_t* block, uint64_t* out);
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size);
+int crypt_main(uint32_t* text, uint32_t* key);
 
 #endif

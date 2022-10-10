@@ -202,27 +202,35 @@ void IDEA_decrypt(IdeaContext* context, uint16_t* encryptedBlock, uint16_t* out)
 	idea(encryptedBlock, context->decryptionKeys, out);
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
 {
 	IdeaContext context;
 	int i;
 	uint16_t cipherText[4];
 	uint16_t expectedCipherText[4];
 	uint16_t decryptedText[4];
+	uint16_t key_in[8];
+	uint16_t text_in[4];
+	text_in[0] = text[0] >> 16;
+	text_in[1] = text[0];
+	text_in[2] = text[1] >> 16;
+	text_in[3] = text[1];
 
+	key_in[0] = key[0];
+	key_in[1] = key[1];
+	key_in[2] = key[2];
+	key_in[3] = key[3];
+	key_in[4] = key[4];
+	key_in[5] = key[5];
+	key_in[6] = key[6];
+	key_in[7] = key[7];
 
 	uint16_t* txt = &text;
-	IDEA_init(&context, key);
-	IDEA_encrypt(&context, txt, cipherText);
+	IDEA_init(&context, key_in);
+	IDEA_encrypt(&context, text_in, cipherText);
 	IDEA_decrypt(&context, cipherText, decryptedText);
 
-	
-	for (int i = 0; i < size*2; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == txt[i]))
-			return 1;
-	}
+
 	return 0;
 }
 

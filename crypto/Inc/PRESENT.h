@@ -23,6 +23,6 @@ void PRESENT_init(PresentContext* context, uint16_t* key, uint16_t keyLen);
 void PRESENT_encrypt(PresentContext* context, uint16_t* block, uint16_t* out);
 void PRESENT_decrypt(PresentContext* context, uint16_t* block, uint16_t* out);
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size);
+int crypt_main(uint32_t* text, uint32_t* key);
 
 #endif

@@ -23,6 +23,6 @@ void HIGHT_init(HightContext* context, uint8_t* key);
 void HIGHT_encrypt(HightContext* context, uint8_t* block, uint8_t* out);
 void HIGHT_decrypt(HightContext* context, uint8_t* block, uint8_t* out);
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size);
+int crypt_main(uint32_t* text, uint32_t* key);
 
 #endif

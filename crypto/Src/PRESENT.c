@@ -255,7 +255,7 @@ void PRESENT_decrypt(PresentContext* context, uint16_t* block, uint16_t* out)
 	out[3] = (uint16_t)state;
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
 {
 	PresentContext context;
 	int i;
@@ -263,20 +263,28 @@ int crypt_main(int key_size, int text[], int key[], int validation[], int size)
 	uint16_t expectedCipherText[4];
 	uint16_t decryptedText[4];
 
-	uint16_t* txt = &text;
+	uint16_t key_in[8];
+	uint16_t text_in[4];
+	text_in[0] = text[0] >> 16;
+	text_in[1] = text[0];
+	text_in[2] = text[1] >> 16;
+	text_in[3] = text[1];
+
+	key_in[0] = key[0] >> 16;
+	key_in[1] = key[0];
+	key_in[2] = key[1] >> 16;
+	key_in[3] = key[1];
+	key_in[4] = key[2] >> 16;
+	key_in[5] = key[2];
+	key_in[6] = key[3] >> 16;
+	key_in[7] = key[3];
 
 
-	PRESENT_init(&context, key, key_size);
+	PRESENT_init(&context, key_in, KEYSIZE);
 
-	PRESENT_encrypt(&context, txt, cipherText);
+	PRESENT_encrypt(&context, text_in, cipherText);
 	PRESENT_decrypt(&context, cipherText, decryptedText);
 
-	for (int i = 0; i < size*2; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == txt[i]))
-			return 1;
-	}
 	return 0;
 }
 

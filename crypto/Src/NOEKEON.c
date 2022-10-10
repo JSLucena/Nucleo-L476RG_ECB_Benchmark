@@ -148,7 +148,8 @@ void NOEKEON_decrypt(uint32_t* encryptedBlock, uint32_t* key, uint32_t* decrypte
 	decryptedBlock[0] ^= RC[0];
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
+
 {
 	int i;
 
@@ -158,13 +159,7 @@ int crypt_main(int key_size, int text[], int key[], int validation[], int size)
 
 	NOEKEON_encrypt(text, key, cipherText);
 	NOEKEON_decrypt(cipherText, key, decryptedText);
-	for (int i = 0; i < size; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == validation[i]))
-			return 1;
-	}
-	
+
 	return 0;
 
 }

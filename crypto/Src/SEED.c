@@ -327,7 +327,7 @@ void SEED_decrypt(SeedContext* context, uint32_t* block, uint32_t* out)
 	out[3] = r1;
 }
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size)
+int crypt_main(uint32_t* text, uint32_t* key)
 {
 	SeedContext context;
 	int i;
@@ -340,15 +340,6 @@ int crypt_main(int key_size, int text[], int key[], int validation[], int size)
 
 	SEED_encrypt(&context, text, cipherText);
 	SEED_decrypt(&context, cipherText, decryptedText);
-
-   for (int i = 0; i < size; i++)
-	{
-		// verify if decrypt and TextList is the same
-		if (!(decryptedText[i] == validation[i]))
-			return 1;
-	}
-	
-	return 0;
 
 }
 

@@ -24,6 +24,6 @@ void ARIA_init(AriaContext* context, const uint32_t* key, uint32_t keyLength);
 void ARIA_encrypt(AriaContext* context, uint32_t* block, uint32_t* P);
 void ARIA_decrypt(AriaContext* context, uint32_t* block, uint32_t* P);
 
-int crypt_main(int key_size, int text[], int key[], int validation[], int size);
+int crypt_main(uint32_t* text, uint32_t* key);
 
 #endif
