@@ -283,6 +283,9 @@ int crypt_main(uint32_t* text, uint32_t* key)
 	PRESENT_init(&context, key_in, KEYSIZE);
 
 	PRESENT_encrypt(&context, text_in, cipherText);
+	
+	text[0] = (uint32_t)(cipherText[0] << 16) | (uint32_t)(cipherText[1]);
+	text[1] = (uint32_t)(cipherText[2] << 16) | (uint32_t)(cipherText[3]);
 	PRESENT_decrypt(&context, cipherText, decryptedText);
 
 	return 0;

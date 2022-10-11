@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "AES.h"
 #include "ARIA.h"
 #include "CAMELLIA.h"
 #include "NOEKEON.h"
@@ -207,7 +208,7 @@ int main(void)
         //count+=TEXT_SIZE;
         ret = crypt_main(text,KEY);
 
-      }while(count < 202);
+      }while(count < 200);
       
       tock = KIN1_GetCycleCounter();
       spent = tock - tick;

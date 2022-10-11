@@ -130,9 +130,14 @@ int crypt_main(uint32_t* text, uint32_t* key){
 
 	uint64_t text_in = (text[0] << 32) | text[1];
 
-	uint64_t cipherText = GOST_encrypt(text, key);
+	uint64_t cipherText = GOST_encrypt(text_in, key);
+
+	text[0] = (uint32_t)(cipherText >> 32);
+	text[1] = (uint32_t)(cipherText);
+
 	uint64_t decrypted = GOST_decrypt(cipherText, key);
 
+	
 	return 0;
 	
 }

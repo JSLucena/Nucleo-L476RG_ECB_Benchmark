@@ -242,6 +242,10 @@ int crypt_main(uint32_t* text, uint32_t* key)
 	HIGHT_encrypt(&context, text_in, cipherText);
 	HIGHT_decrypt(&context, cipherText, decryptedText);
 
+	text[0] = (uint32_t)(cipherText[0] << 24) | (uint32_t)(cipherText[1] << 16) 
+								| (uint32_t)(cipherText[2] << 8) | (uint32_t)(cipherText[3]);
+	text[1] = (uint32_t)(cipherText[4] << 24) | (uint32_t)(cipherText[5] << 16) 
+								| (uint32_t)(cipherText[6] << 8) | (uint32_t)(cipherText[7]);
 }
 
 #endif

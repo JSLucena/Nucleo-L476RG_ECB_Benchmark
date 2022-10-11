@@ -230,7 +230,8 @@ int crypt_main(uint32_t* text, uint32_t* key)
 	IDEA_encrypt(&context, text_in, cipherText);
 	IDEA_decrypt(&context, cipherText, decryptedText);
 
-
+	text[0] = (uint32_t)(cipherText[0] << 16) | (uint32_t)(cipherText[1]);
+	text[1] = (uint32_t)(cipherText[2] << 16) | (uint32_t)(cipherText[3]);
 	return 0;
 }
 

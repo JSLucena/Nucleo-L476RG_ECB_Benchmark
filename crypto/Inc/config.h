@@ -1,5 +1,6 @@
 
 
+//#define USE_AES
 //#define USE_ARIA 
 //#define USE_CAMELLIA 
 //#define USE_GOST 
@@ -31,6 +32,9 @@ Speck 128/192/256
 */
 #define KEYSIZE 256
 
+#ifdef USE_AES
+	#define TEXT_SIZE 4
+#endif
 #ifdef USE_ARIA
 	#define TEXT_SIZE 4
 #endif

@@ -184,6 +184,12 @@ int crypt_main(uint32_t* text, uint32_t* key)
 	SPECK_init(&context, key_in, KEYSIZE);
 
 	SPECK_encrypt(&context, text_in, cipherText);
+	
+	text[0] = (uint32_t)(cipherText[0] >> 32);
+	text[1] = (uint32_t)(cipherText[0]);
+	text[2] = (uint32_t)(cipherText[1] >> 32);
+	text[3] = (uint32_t)(cipherText[1]);
+	
 	SPECK_decrypt(&context, cipherText, decryptedText);
 
 
